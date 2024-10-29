@@ -1,20 +1,23 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using Newtonsoft.Json;
 
-public static class JsonFileHelper<T>
+public static class JsonFileHelper
 {
-
-    public static T LeerArchivo(string filePath)
+    public static void EscribirArchivo<T>(string filePath, T objectToWrite, bool indented = false)
     {
-        if (!File.Exists(filePath)) return default(T);
+        var formatting = indented ? Formatting.Indented : Formatting.None;
+        var json = JsonConvert.SerializeObject(objectToWrite, formatting);
 
-        var json = File.ReadAllText(filePath);
-        return JsonSerializer.Deserialize<T>(json) ?? default(T);
+        File.WriteAllText(filePath, json);
     }
 
-    public static void EscribirArchivo(string filePath, T data)
+    public static T LeerArchivo<T>(string filePath)
     {
-        var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(filePath, json);
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException($"El archivo '{filePath}' no fue encontrado.");
+        }
+
+        var json = File.ReadAllText(filePath);
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }
