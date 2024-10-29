@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AppSuris.Server.Helpers
+namespace AppSuris.Server.Models
 {
     public class Articulos
 
@@ -26,7 +26,7 @@ namespace AppSuris.Server.Helpers
     public class TypeArticulos
     {
         [JsonPropertyName("articulos")]
-        public List<Articulos> Articulos { get; set; } = new List<ArticArticulosle>();
+        public List<Articulos> Articulos { get; set; } = new List<Articulos>();
     }
 }
 

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace AppSuris.Server.Helpers
+namespace AppSuris.Server.Models
 {
-    public class Vendedores
+    public class Vendedor
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -15,6 +14,6 @@ namespace AppSuris.Server.Helpers
     public class TypeVendedores
     {
         [JsonPropertyName("vendedores")]
-        public List<Vendedores> Vendedores { get; set; } = new List<Vendedores>();
+        public List<Vendedor> Vendedores { get; set; } = new List<Vendedor>();
     }
 }
