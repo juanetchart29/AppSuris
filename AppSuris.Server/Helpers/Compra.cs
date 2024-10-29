@@ -1,6 +1,8 @@
 ﻿namespace AppSuris.Server.Helpers
 {
-    public class Seller
+    public class Compra
     {
+
+
     }
 }
