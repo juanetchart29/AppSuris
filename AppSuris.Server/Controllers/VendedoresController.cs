@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-
+using AppSuris.Server.Brokers;
 namespace AppSuris.Server.Controllers
 {
     [ApiController]
@@ -12,17 +12,9 @@ namespace AppSuris.Server.Controllers
         private readonly string _filePath = "Helpers/Data/vendedores_challenge.json";
         ILogger _logger;
 
-
         public VendedoresController(ILogger<VendedoresController> logger)
         {
             _logger = logger;
-        }
-
-
-        public List<Vendedor> GetVendedoresList()
-        {
-            var vendedores = JsonFileHelper.LeerArchivo<TypeVendedor>(_filePath);
-            return vendedores?.Vendedores ?? new List<Vendedor>();
         }
 
         [HttpGet]
@@ -30,7 +22,7 @@ namespace AppSuris.Server.Controllers
         {
             try
             {
-                return Ok(GetVendedoresList());
+                return Ok(Broker.GetVendedoresList(_filePath));
             }
             catch(Exception ex) 
             {

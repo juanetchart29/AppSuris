@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AppSuris.Server.Models;
+using AppSuris.Server.Brokers;
 
 namespace AppSuris.Server.Controllers
 {
@@ -23,12 +23,6 @@ namespace AppSuris.Server.Controllers
 
 
 
-        public List<Articulos> GetArticulosList()
-        {
-                var articulosData = JsonFileHelper.LeerArchivo<TypeArticulos>(filePath);
-                return articulosData?.Articulos ?? new List<Articulos>();
-
-        }
 
 
         [HttpGet]
@@ -36,7 +30,7 @@ namespace AppSuris.Server.Controllers
         {
             try
             {
-                return Ok(GetArticulosList());
+                return Ok(Broker.GetArticulosList(filePath));
 
             }
             catch (Exception ex)
