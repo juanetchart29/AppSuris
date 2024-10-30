@@ -11,7 +11,7 @@ namespace AppSuris.Server.Models
         public string Descripcion { get; set; }
     }
 
-    public class TypeVendedores
+    public class TypeVendedor
     {
         [JsonPropertyName("vendedores")]
         public List<Vendedor> Vendedores { get; set; } = new List<Vendedor>();

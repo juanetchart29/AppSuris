@@ -30,4 +30,3 @@ namespace AppSuris.Server.Models
     }
 }
 
-}
