@@ -30,6 +30,46 @@ git clone <URL_DEL_REPOSITORIO>
 
 La aplicación cuenta con dos entidades principales que se almacenan en archivos JSON en el proyecto: `Producto` y `Vendedor`.
 
+#### Formato de los Datos en JSON
+
+Los datos de productos y vendedores se guardan en archivos JSON dentro del proyecto, con el siguiente formato:
+
+##### Ejemplo de JSON para `Producto`
+
+```json
+[
+    {
+        "codigo": "P001",
+        "descripcion": "Producto 1",
+        "precio": 100.0,
+        "deposito": 10
+    },
+    {
+        "codigo": "P002",
+        "descripcion": "Producto 2",
+        "precio": 150.0,
+        "deposito": 15
+    }
+]
+```
+
+##### Ejemplo de JSON para `Vendedor`
+
+```json
+[
+    {
+        "id": 1,
+        "descripcion": "Vendedor 1"
+    },
+    {
+        "id": 2,
+        "descripcion": "Vendedor 2"
+    }
+]
+```
+
+### Propiedades de las Entidades
+
 #### Producto
 
 Cada producto cuenta con las siguientes propiedades:
@@ -50,7 +90,6 @@ public class Producto
     public int Deposito { get; set; }
 }
 ```
-
 - **Código**: Código identificador del producto.
 - **Descripción**: Descripción detallada del producto.
 - **Precio**: Precio del producto.
@@ -77,5 +116,3 @@ public class Vendedor
 ## Uso
 
 La aplicación permite crear, actualizar y gestionar pedidos mediante el frontend en React y el backend en .NET Core. Cada pedido se realiza seleccionando un vendedor y uno o más artículos disponibles.
-
-
