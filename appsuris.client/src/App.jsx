@@ -1,44 +1,58 @@
-import React, { useState } from 'react'
-import { VendorSelect } from './components/VendedorSelect'
-import { ArticleTable } from './components/ArticleTable'
-import { OrderSummary } from './components/OrderSummary'
+import React, { useState, useEffect } from 'react';
+import { getVendedores, getArticulos, PostPedido } from "./Api/api.js";
+import { VendorSelect } from './components/VendedorSelect';
+import { ArticleTable } from './components/ArticleTable';
+import { OrderSummary } from './components/OrderSummary';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const vendedores = [
-    { id: 1, nombre: "Juan Pérez" },
-    { id: 2, nombre: "María García" },
-    { id: 3, nombre: "Carlos Rodríguez" },
-]
-
-const articulos = [
-    { id: 1, nombre: "Laptop", descripcion: "Laptop de alta gama", precio: 1200 },
-    { id: 2, nombre: "Mouse", descripcion: "Mouse ergonómico", precio: 50 },
-    { id: 3, nombre: "Teclado", descripcion: "Teclado mecánico", precio: 100 },
-    { id: 4, nombre: "Monitor", descripcion: "Monitor 4K", precio: 400 },
-]
-
 export default function OrderSystem() {
-    const [selectedVendedor, setSelectedVendedor] = useState("")
-    const [selectedArticulos, setSelectedArticulos] = useState([])
+    const [vendedores, setVendedores] = useState([]);
+    const [articulos, setArticulos] = useState([]);
+    const [selectedVendedor, setSelectedVendedor] = useState("");
+    const [selectedArticulos, setSelectedArticulos] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const vendedoresData = await getVendedores();
+            const articulosData = await getArticulos();
+            setVendedores(vendedoresData);
+            setArticulos(articulosData);
+        }
+        fetchData();
+    }, []);
 
     const handleArticuloSelect = (id) => {
         setSelectedArticulos(prev =>
             prev.includes(id) ? prev.filter(artId => artId !== id) : [...prev, id]
-        )
-    }
+        );
+    };
 
-    const handleSubmitOrder = () => {
+    const handleSubmitOrder = async () => {
         if (selectedArticulos.length === 0) {
-            alert('Por favor, seleccione al menos un artículo.')
-            return
+            alert('Por favor, seleccione al menos un artículo.');
+            return;
         }
         if (!selectedVendedor) {
-            alert('Por favor, seleccione un vendedor.')
-            return
+            alert('Por favor, seleccione un vendedor.');
+            return;
         }
-        alert('Pedido generado con éxito!')
-    }
+
+        const pedido = {
+            vendedorId: selectedVendedor,
+            articulosIds: selectedArticulos,
+        };
+
+        const response = await PostPedido(pedido);
+
+        if (response) {
+            alert('Pedido generado con éxito!');
+            setSelectedArticulos([]);
+            setSelectedVendedor("");
+        } else {
+            alert('Error al generar el pedido.');
+        }
+    };
 
     return (
         <div className="container-fluid bg-light min-vh-100 py-4">
@@ -64,5 +78,5 @@ export default function OrderSystem() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
