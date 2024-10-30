@@ -1,3 +1,1 @@
-{
-
-}
+{"Pedidos":[{"Id":1,"VendedorId":5,"ArticulosIds":["K1024"],"Fecha":"2024-10-30T02:15:16.4705865Z"},{"Id":2,"VendedorId":1,"ArticulosIds":["K1026"],"Fecha":"2024-10-30T02:15:47.9538976Z"}]}
