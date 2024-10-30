@@ -6,7 +6,7 @@ using AppSuris.Server.Brokers;
 namespace AppSuris.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class VendedoresController : Controller
     {
         private readonly string _filePath = "Helpers/Data/vendedores_challenge.json";
