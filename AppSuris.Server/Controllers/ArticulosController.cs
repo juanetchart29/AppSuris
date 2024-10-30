@@ -12,10 +12,7 @@ namespace AppSuris.Server.Controllers
 
         ILogger _logger;
 
-        public ArticulosController()
-        {
-
-        }
+      
         public ArticulosController(ILogger<ArticulosController> logger)
         {
             _logger = logger;

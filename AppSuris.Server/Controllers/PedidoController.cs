@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AppSuris.Server.Helpers;
-using System;
-using System.Collections.Generic;
-using AppSuris.Server.Models;
-using Microsoft.Extensions.Logging;
+using AppSuris.Server.Brokers;
 
 namespace AppSuris.Server.Controllers
 {
@@ -11,13 +8,11 @@ namespace AppSuris.Server.Controllers
     [ApiController]
     public class PedidoController : ControllerBase
     {
-        private readonly ArticulosController _controlerManager;
         private readonly string filePath = "Helpers/Data/pedidos.json"; 
         private readonly ILogger _logger;
 
         public PedidoController(ILogger<PedidoController> logger)
         {
-            _controlerManager = new ArticulosController();
             _logger = logger;
         }
 
@@ -56,7 +51,7 @@ namespace AppSuris.Server.Controllers
             }
 
             var regex = new System.Text.RegularExpressions.Regex(@"[^a-zA-Z0-9\s]");
-            var articulosPedidos = _controlerManager.GetArticulosList()
+            var articulosPedidos = Broker.GetArticulosList(filePath)
                                                     .Where(x => pedido.ArticulosIds.Contains(x.Codigo)
                                                                 && x.Deposito == 1) 
                                                     .ToList();
