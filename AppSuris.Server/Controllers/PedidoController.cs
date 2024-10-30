@@ -17,33 +17,30 @@ namespace AppSuris.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult GuardarCompra([FromBody] List<Pedido> pedidos)
+        public IActionResult GuardarCompra([FromBody] Pedido pedido) // Cambiado a un solo pedido
         {
-            if (pedidos == null || pedidos.Count == 0)
+            if (pedido == null)
             {
-                return BadRequest("Debes seleccionar al menos un articulos para realizar la compra.");
+                return BadRequest("El pedido no puede ser nulo.");
             }
 
             var comprasData = JsonFileHelper.LeerArchivo<TypePedido>(filePath) ?? new TypePedido();
 
-            foreach (var pedido in pedidos)
+            if (!ValidarPedido(pedido))
             {
-                if (!ValidarCompra(pedido))
-                {
-                    return BadRequest($"El PEDIDO contiene articulos no validos.");
-                }
-
-                pedido.Id = comprasData.Pedidos.Count + 1; // agrego ids unicosss
-                pedido.Fecha = DateTime.UtcNow;
-                comprasData.Pedidos.Add(pedido);
+                return BadRequest("El pedido contiene artículos no válidos.");
             }
 
-            JsonFileHelper.EscribirArchivo(filePath, comprasData);
+            pedido.Id = comprasData.Pedidos.Count + 1; // Asignar un ID único
+            pedido.Fecha = DateTime.UtcNow; // Asignar la fecha actual
+            comprasData.Pedidos.Add(pedido); // Agregar el pedido a la lista
 
-            return Ok(new { mensaje = "Pedidos guardados exitosamente", pedidosGuardados = pedidos });
+            JsonFileHelper.EscribirArchivo(filePath, comprasData); // Persistir los cambios
+
+            return Ok(new { mensaje = "Pedido guardado exitosamente", pedidoGuardado = pedido });
         }
-
-        private bool ValidarCompra(Pedido pedido)
+        // valido como llegan los datos (por las dudas)
+        private bool ValidarPedido(Pedido pedido)
         {
             if (pedido == null || pedido.ArticulosIds == null || pedido.ArticulosIds.Count == 0)
             {
@@ -55,7 +52,6 @@ namespace AppSuris.Server.Controllers
                                                     .Where(x => pedido.ArticulosIds.Contains(x.Codigo)
                                                                 && x.Deposito == 1) 
                                                     .ToList();
-
             foreach (var articulo in articulosPedidos)
             {
                 if (articulo.Precio <= 0 || regex.IsMatch(articulo.Descripcion))
