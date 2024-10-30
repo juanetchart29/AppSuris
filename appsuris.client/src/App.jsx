@@ -30,7 +30,7 @@ export default function OrderSystem() {
 
     const handleSubmitOrder = async () => {
         if (selectedArticulos.length === 0) {
-            alert('Por favor, seleccione al menos un artículo.');
+            alert('Por favor, seleccione al menos un articulo.');
             return;
         }
         if (!selectedVendedor) {
@@ -39,20 +39,22 @@ export default function OrderSystem() {
         }
 
         const pedido = {
-            vendedorId: selectedVendedor,
-            articulosIds: selectedArticulos,
+            vendedorId: parseInt(selectedVendedor, 10), 
+            articulosIds: selectedArticulos.map(id => id.toString()), 
+            fecha: new Date().toISOString() 
         };
 
-        const response = await PostPedido(pedido);
+        const response = await PostPedido(pedido); 
 
         if (response) {
-            alert('Pedido generado con éxito!');
+            alert('Pedido generado con exito!');
             setSelectedArticulos([]);
             setSelectedVendedor("");
         } else {
             alert('Error al generar el pedido.');
         }
     };
+
 
     return (
         <div className="container-fluid bg-light min-vh-100 py-4">

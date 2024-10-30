@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export function VendorSelect({ vendedores, selectedVendedor, setSelectedVendedor }) {
     return (
@@ -13,10 +13,10 @@ export function VendorSelect({ vendedores, selectedVendedor, setSelectedVendedor
                 <option value="">Seleccione un vendedor</option>
                 {vendedores.map(vendedor => (
                     <option key={vendedor.id} value={vendedor.id.toString()}>
-                        {vendedor.nombre}
+                        {vendedor.descripcion || 'Nombre no disponible'}
                     </option>
                 ))}
             </select>
         </div>
-    )
+    );
 }

@@ -15,7 +15,11 @@ export const getVendedores = async () => {
 }
 export const getArticulos = async () => {
     try {
-        const response = await axios.get(`${EndpointLocalClient}/Articulos`);
+        const response = await axios.get(`${EndpointLocalClient}/Articulos`, {
+            headers: {
+                'Accept': 'application/json; charset=utf-8',
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Error al obtener articulos:', error);
@@ -24,11 +28,11 @@ export const getArticulos = async () => {
 }
 export const PostPedido = async (pedido) => {
     try {
-        const response = await axios.Post(`${EndpointLocalClient}/Pedido`,pedido);
+        const response = await axios.post(`${EndpointLocalClient}/Pedido`, pedido); 
         return response.data;
     } catch (error) {
-        console.error('Error al setear el pedido:', error);
-        return [];
+        console.error('Error al enviar el pedido:', error);
+        return null;
     }
 }
 
